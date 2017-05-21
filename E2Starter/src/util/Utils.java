@@ -11,21 +11,22 @@ public class Utils {
 
 	
 	/**
-	 * A utility method that creates and returns a TrainCompany isntance based
+	 * A utility method that creates and returns a TrainCompany instance based
 	 * on data in a text file.
 	 * 
-	 * Pre-condition: There is a file called <code>dataFileName</code> in the src/test/resources folder.
+	 * Pre-condition: There is a file called <code>dataFileName</code> in the resources folder.
+	 * <code>dataFilePath = "resources/" + dataFileName</code>
 	 * 
-	 * See existing files in src/test/resources for an example of the format. 
+	 * See existing files in src/resources for an example of the format. 
 	 */
-	public static TrainCompany createCompanyFromDataFile(String dataFileName) throws IOException{
-		InputStream in = ClassLoader.getSystemResourceAsStream(dataFileName);
+	public static TrainCompany createCompanyFromDataFile(String dataFilePath) throws IOException{
+		InputStream in = ClassLoader.getSystemResourceAsStream(dataFilePath);
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		
 		// The first line of the file should contain the company's name
 		String line = br.readLine();
 		TrainCompany company = new TrainCompany(line.trim());
-		
+		System.out.println(line);
 		// The next lines are expected to be of the format fromStation,toStation,price
 		line = br.readLine();
 		while(line != null){
@@ -34,7 +35,6 @@ public class Utils {
 			if(line.isEmpty()){
 				continue;
 			}
-			
 			// Parse the line, and add the route to the company 
 			String[] parts = line.split(",");
 			company.createOrUpdateDirectRoute(parts[0].trim(), parts[1].trim(), Double.parseDouble(parts[2].trim()));
